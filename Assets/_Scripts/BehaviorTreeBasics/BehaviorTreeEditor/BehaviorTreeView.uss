@@ -1,0 +1,18 @@
+GridBackground {
+    --background-color: rgb(40, 40, 40);
+    --line-color: rgb(128,128,128, 0.5);
+    --thick-line-color: rgb(128,128,128, 0.5);
+    --spacing: 15;
+}
+
+unity-two-pane-split-view {
+      --background-color: rgb(40, 40, 40);
+
+}
+
+VisualElement {
+    --background-color: rgb(40, 40, 40);
+    --line-color: rgb(128,128,128);
+    --thick-line-color: rgb(128,128,128);
+    --spacing: 15;
+}
