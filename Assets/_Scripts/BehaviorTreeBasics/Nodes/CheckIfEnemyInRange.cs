@@ -20,11 +20,6 @@ public class CheckIfEnemyInRange : ActionNode
 
     protected override NodeState OnUpdate()
     {
-         if (Vector3.Distance(transform.position, _target.position) < _range)
-        {
-            return NodeState.Success;
-        }
-s
-        return NodeState.Failure;
+        return NodeState.Running;
     }
 }
