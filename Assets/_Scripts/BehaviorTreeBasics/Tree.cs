@@ -11,6 +11,7 @@ namespace BehaviorTree
     [CreateAssetMenu(menuName = "BehaviorTree/Tree", fileName = "NewTree")]
     public class Tree : ScriptableObject
     {
+        public BlackBoard blackboard;
         public Node rootNode = null;
         public NodeState treeState = NodeState.Running;
         public Dictionary<string, object> dataContext = new Dictionary<string, object>();
@@ -38,6 +39,7 @@ namespace BehaviorTree
             Node node = ScriptableObject.CreateInstance(type) as Node;
             node.name = type.Name;
             node.Guid = Guid.NewGuid().ToString();
+            node.tree = this;
             nodes.Add(node);
 
             AssetDatabase.AddObjectToAsset(node, this);
@@ -58,7 +60,7 @@ namespace BehaviorTree
             DecoratorNode decoratorNode = parent as DecoratorNode;
             if (decoratorNode != null)
             {
-                decoratorNode.child = null;
+                decoratorNode.child = child;
             }
 
             CompositeNode compositeNode = parent as CompositeNode;

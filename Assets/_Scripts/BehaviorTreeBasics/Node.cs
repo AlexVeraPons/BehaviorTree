@@ -16,11 +16,22 @@ namespace BehaviorTree
     }
     public abstract class Node : ScriptableObject
     {
+        public Tree tree;
+        protected BlackBoard blackBoard => GetBlackbaord();
+
+        private BlackBoard GetBlackbaord()
+        {
+            if (tree == null)
+            {
+                return null;
+            }
+
+            return tree.blackboard;
+        }
+
         public NodeState state = NodeState.Running;
         private bool _started = false;
         [HideInInspector] public string Guid;
-        private Dictionary<string, object> _dataContext = new Dictionary<string, object>();
-
         [HideInInspector] public Vector2 position;
 
         public virtual NodeState Evaluate()

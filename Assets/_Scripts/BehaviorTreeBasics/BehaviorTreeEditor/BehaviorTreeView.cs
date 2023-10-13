@@ -12,7 +12,8 @@ public class BehaviorTreeView : EditorWindow
 {
     BehaviorTreeGraph _treeGraphView;
     BehaviorInspectorView _inspectorView;
-
+    BlackboardInspectorView _blackboardInspectorView;
+    
 
     [SerializeField]
     private VisualTreeAsset m_VisualTreeAsset = default;
@@ -40,6 +41,7 @@ public class BehaviorTreeView : EditorWindow
 
         _treeGraphView = root.Q<BehaviorTreeGraph>();
         _inspectorView = root.Q<BehaviorInspectorView>();
+        _blackboardInspectorView = root.Q<BlackboardInspectorView>();
         _treeGraphView.OnNodeSelected = OnNodeSelectionChanged;
 
         OnSelectionChange();
@@ -52,10 +54,37 @@ public class BehaviorTreeView : EditorWindow
 
     private void OnSelectionChange()
     {
-        Tree tree = Selection.activeObject as Tree;
-        if (tree && AssetDatabase.CanOpenAssetInEditor(tree.GetInstanceID()))
+        if (Selection.activeObject == null)
         {
-            _treeGraphView.LoadTree(tree);
+            return;
+        }
+
+        if (Selection.activeObject is Tree)
+        {
+            Tree tree = Selection.activeObject as Tree;
+            if (tree && AssetDatabase.CanOpenAssetInEditor(tree.GetInstanceID()))
+            {
+                _treeGraphView.LoadTree(tree);
+                return;
+            }
+        }
+        else if(Selection.activeGameObject.GetComponent<BehaviorTreeRunner>() != null)
+        {
+            BehaviorTreeRunner runner = Selection.activeGameObject.GetComponent<BehaviorTreeRunner>();
+            {
+                _treeGraphView.LoadTree(runner.tree);
+            }
+        }
+
+        
+        if (Selection.activeGameObject.GetComponent<BlackBoard>() != null)
+        {
+            BlackBoard blackboard = Selection.activeGameObject.GetComponent<BlackBoard>();
+            if (blackboard)
+            {
+                _blackboardInspectorView.UpdateSelection(blackboard);
+                return;
+            }
         }
     }
 }

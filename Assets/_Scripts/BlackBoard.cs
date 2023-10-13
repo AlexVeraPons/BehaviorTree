@@ -4,8 +4,7 @@ using UnityEngine;
 
 namespace BehaviorTree
 {
-    [CreateAssetMenu(menuName = "BehaviorTree/Blackboard", fileName = "NewBlackboard")]
-    public class BlackBoard : ScriptableObject
+    public abstract class BlackBoard : MonoBehaviour
     {
         [SerializeField]private Dictionary<string, object> _dataContext = new Dictionary<string, object>();
 
@@ -33,8 +32,10 @@ namespace BehaviorTree
             }
         }
 
+        public abstract void Initialize();
     }
-
 }
+
+
 
 

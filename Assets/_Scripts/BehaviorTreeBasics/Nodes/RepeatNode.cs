@@ -17,7 +17,7 @@ public class RepeatNode : DecoratorNode
 
     protected override NodeState OnUpdate()
     {
-        child.Evaluate();
+    child.Evaluate();
 
         state = NodeState.Running;
         return state;
