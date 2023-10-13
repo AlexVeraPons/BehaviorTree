@@ -4,7 +4,7 @@ namespace BehaviorTree
 {
     public abstract class DecoratorNode : Node
     {
-         public Node child;
+        [HideInInspector] public Node child;
 
         public override Node Clone()
         {

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class SequencerNode : CompositeNode
 {
-    [SerializeField] private int _currentChild;
+    [HideInInspector] private int _currentChild;
     protected override void OnStart()
     {
         _currentChild = 0;

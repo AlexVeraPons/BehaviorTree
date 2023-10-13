@@ -118,21 +118,21 @@ public class BehaviorTreeGraph : GraphView
 
         foreach (var nodeType in actionNode)
         {
-            evt.menu.AppendAction($"Add Node/{nodeType.Name}", (a) => CreateNode(nodeType));
+            evt.menu.AppendAction($"Add Node/ActionNode/{nodeType.Name}", (a) => CreateNode(nodeType));
         }
 
         var compositeNode = TypeCache.GetTypesDerivedFrom<CompositeNode>();
 
         foreach (var nodeType in compositeNode)
         {
-            evt.menu.AppendAction($"Add Node/{nodeType.Name}", (a) => CreateNode(nodeType));
+            evt.menu.AppendAction($"Add Node/CompositeNode/{nodeType.Name}", (a) => CreateNode(nodeType));
         }
 
 
         var decoratorNode = TypeCache.GetTypesDerivedFrom<DecoratorNode>();
         foreach (var nodeType in decoratorNode)
         {
-            evt.menu.AppendAction($"Add Node/{nodeType.Name}", (a) => CreateNode(nodeType));
+            evt.menu.AppendAction($"Add Node/DecoratorNode/{nodeType.Name}", (a) => CreateNode(nodeType));
         }
     }
 

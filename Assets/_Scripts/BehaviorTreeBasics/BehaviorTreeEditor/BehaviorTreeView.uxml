@@ -6,15 +6,7 @@
     <BehaviorSplitView fixed-pane-initial-dimension="200" fixed-pane-index="0" focusable="false" class="VisualElement" style="overflow: visible; min-width: 10px; min-height: auto;">
         <ui:VisualElement name="Left" style="flex-grow: 1; min-width: 100px; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; -unity-background-image-tint-color: rgb(255, 255, 255); background-color: rgb(56, 56, 56);">
             <ui:Label tabindex="-1" text=" Node Inspector" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Node_Inspector" style="background-color: rgba(34, 32, 32, 0); height: 25px; color: rgb(217, 217, 217); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; -unity-slice-scale: 0;" />
-            <BehaviorSplitView orientation="Vertical">
-                <ui:VisualElement style="flex-grow: 1; flex-direction: row;">
-                    <BehaviorInspectorView style="border-left-width: 4px; border-right-width: 4px; border-bottom-width: 29px; width: 100%;" />
-                </ui:VisualElement>
-                <ui:VisualElement style="flex-grow: 1;">
-                    <ui:Label tabindex="-1" text="BlackboardInspector" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Label" style="color: rgb(224, 224, 224); -unity-text-align: middle-left; border-bottom-width: 10px;" />
-                    <BlackboardInspectorView name="BlackboardInspectorView" />
-                </ui:VisualElement>
-            </BehaviorSplitView>
+            <BehaviorInspectorView style="border-left-width: 4px; border-right-width: 4px; border-bottom-width: 29px; width: 100%;" />
         </ui:VisualElement>
         <ui:VisualElement name="Right" style="flex-grow: 1; min-width: 100px;">
             <ui:Label tabindex="-1" text="  TreeView" parse-escape-sequences="true" display-tooltip-when-elided="true" style="background-color: rgb(47, 47, 47); color: rgb(217, 217, 217); height: 37px;" />

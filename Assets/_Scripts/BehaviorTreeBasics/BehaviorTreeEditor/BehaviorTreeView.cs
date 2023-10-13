@@ -41,7 +41,6 @@ public class BehaviorTreeView : EditorWindow
 
         _treeGraphView = root.Q<BehaviorTreeGraph>();
         _inspectorView = root.Q<BehaviorInspectorView>();
-        _blackboardInspectorView = root.Q<BlackboardInspectorView>();
         _treeGraphView.OnNodeSelected = OnNodeSelectionChanged;
 
         OnSelectionChange();
@@ -82,6 +81,8 @@ public class BehaviorTreeView : EditorWindow
             BlackBoard blackboard = Selection.activeGameObject.GetComponent<BlackBoard>();
             if (blackboard)
             {
+                _blackboardInspectorView = GetWindow<BlackboardInspectorView>();
+                _blackboardInspectorView.Show();
                 _blackboardInspectorView.UpdateSelection(blackboard);
                 return;
             }

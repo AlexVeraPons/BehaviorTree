@@ -3,25 +3,47 @@ using UnityEngine.UIElements;
 using BehaviorTree;
 using UnityEngine;
 
-public class BlackboardInspectorView : VisualElement
+public class BlackboardInspectorView : EditorWindow
+{
+    private BehaviorTreeView parentEditor;
+    private IMGUIContainer imguiContainer;
+    Editor editor;
+
+    public static void OpenWindow(BehaviorTreeView parentEditor)
     {
-        public new class UxmlFactory : UxmlFactory<BlackboardInspectorView, VisualElement.UxmlTraits> { }
+        var window = GetWindow<BlackboardInspectorView>("Blackboard Inspector");
+        window.parentEditor = parentEditor;
+    }
 
-        Editor editor;
-        public BlackboardInspectorView()
-        {
-        }
+    public void CreateGUI()
+    {
 
-        internal void UpdateSelection(BlackBoard view)
+        //load the editor
+        imguiContainer = new IMGUIContainer(() =>
         {
-            Clear();
-            
-            UnityEngine.Object.DestroyImmediate(editor);
-            editor = Editor.CreateEditor(view);
-            IMGUIContainer container = new IMGUIContainer(() =>
-                {
-                    editor.OnInspectorGUI();
-                });
-            Add(container);
+            if (editor != null)
+            {
+                editor.OnInspectorGUI();
+            }
+        });
+
+        // make spacing consistent with other inspectors
+        imguiContainer.style.marginLeft = 10;
+        imguiContainer.style.marginRight = 10;
+        imguiContainer.style.marginTop = 10;
+        imguiContainer.style.marginBottom = 10;
+
+        rootVisualElement.Add(imguiContainer);
+    }
+
+    internal void UpdateSelection(BlackBoard view)
+    {
+        UnityEngine.Object.DestroyImmediate(editor);
+        editor = Editor.CreateEditor(view);
+
+        if (imguiContainer != null)
+        {
+            imguiContainer.MarkDirtyRepaint();
         }
     }
+}

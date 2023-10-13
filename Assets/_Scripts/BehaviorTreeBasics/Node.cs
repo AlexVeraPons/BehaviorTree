@@ -16,6 +16,7 @@ namespace BehaviorTree
     }
     public abstract class Node : ScriptableObject
     {
+        public event Action<NodeState> OnStatusChanged;
         public Tree tree;
         protected BlackBoard blackBoard => GetBlackbaord();
 
@@ -29,8 +30,9 @@ namespace BehaviorTree
             return tree.blackboard;
         }
 
-        public NodeState state = NodeState.Running;
-        private bool _started = false;
+        private NodeState _prevState;
+         public NodeState state;
+        public bool _started = false;
         [HideInInspector] public string Guid;
         [HideInInspector] public Vector2 position;
 
@@ -44,11 +46,18 @@ namespace BehaviorTree
 
             state = OnUpdate();
 
+            if (_prevState != state)
+            {
+                OnStatusChanged?.Invoke(state);
+            }
+
             if (state == NodeState.Failure || state == NodeState.Success)
             {
                 OnStop();
                 _started = false;
             }
+
+            _prevState = state;
 
             return state;
         }
