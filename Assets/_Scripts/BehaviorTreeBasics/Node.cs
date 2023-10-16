@@ -19,7 +19,6 @@ namespace BehaviorTree
         public event Action<NodeState> OnStatusChanged;
         public Tree tree;
         protected BlackBoard blackBoard => GetBlackbaord();
-
         private BlackBoard GetBlackbaord()
         {
             if (tree == null)

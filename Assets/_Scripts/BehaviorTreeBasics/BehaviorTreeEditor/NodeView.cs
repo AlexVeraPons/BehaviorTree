@@ -17,7 +17,6 @@ public class NodeView : UnityEditor.Experimental.GraphView.Node
 
         style.left = node.position.x;
         style.top = node.position.y;
-        //make the background not a rectangle
         style.borderTopLeftRadius = 10;
         style.borderTopRightRadius = 10;
         style.borderBottomLeftRadius = 10;
@@ -29,10 +28,11 @@ public class NodeView : UnityEditor.Experimental.GraphView.Node
 
 
         //delete the extension container
-        inputContainer.RemoveFromHierarchy();
-        outputContainer.RemoveFromHierarchy();
+        base.inputContainer.RemoveFromHierarchy();
+        base.outputContainer.RemoveFromHierarchy();
         titleButtonContainer.RemoveFromHierarchy();
         topContainer.RemoveFromHierarchy();
+
 
         SetTitleContainerStyle();
 
@@ -58,11 +58,11 @@ public class NodeView : UnityEditor.Experimental.GraphView.Node
 
     private void SetTitleContainerStyle()
     {
-        if (node is CompositeNode)
+        if (node is BehaviorTree.CompositeNode)
         {
             titleContainer.style.backgroundColor = new Color(0.0f, 0.4784f, 0.3451f, 1.0f);
         }
-        else if (node is DecoratorNode)
+        else if (node is Sequencer)
         {
             titleContainer.style.backgroundColor = new Color(0.2235f, 0.3608f, 0.4196f, 1.0f);
         }
@@ -75,79 +75,74 @@ public class NodeView : UnityEditor.Experimental.GraphView.Node
             titleContainer.style.backgroundColor = new Color(0.7765f, 0.1804f, 0.3961f, 1.0f);
         }
         // separate the titlecontainer from the topof the container
+
     }
     private void CreatePortStyle()
     {
-
-
-        // Create new input container
-        var newInputContainer = new VisualElement();
         // make the inputcontainer on the center
-        newInputContainer.style.alignItems = Align.Center;
-        newInputContainer.style.justifyContent = Justify.Center;
-        newInputContainer.style.height = 0;
-        newInputContainer.style.position = Position.Absolute;
-        newInputContainer.style.top = 0;
-        newInputContainer.style.left = 10;
-        newInputContainer.style.right = 0;
+        inputContainer.style.alignItems = Align.Center;
+        inputContainer.style.justifyContent = Justify.Center;
+        inputContainer.style.position = Position.Absolute;
+        inputContainer.style.top = -10;
+        inputContainer.style.left = 10;
+        inputContainer.style.right = 0;
 
         // Create new output container
-        var newOutputContainer = new VisualElement();
-        newOutputContainer.style.alignItems = Align.Center;
-        newOutputContainer.style.justifyContent = Justify.Center;
-        newOutputContainer.style.height = 0;
-        newOutputContainer.style.position = Position.Absolute;
-        newOutputContainer.style.bottom = 0;
-        newOutputContainer.style.left = 0;
-        newOutputContainer.style.right = 10;
+        outputContainer.style.alignItems = Align.Center;
+        outputContainer.style.justifyContent = Justify.Center;
+        outputContainer.style.position = Position.Absolute;
+        outputContainer.style.bottom = -10;
+        outputContainer.style.left = 0;
+        outputContainer.style.right = 10;
 
-        // Add new containers to node
-        newInputContainer.Add(inputContainer);
-        newOutputContainer.Add(outputContainer);
-        this.Add(newInputContainer);
-        this.Add(newOutputContainer);
+        // add the new container to the node
+        this.hierarchy.Add(base.inputContainer);
+        this.hierarchy.Add(base.outputContainer);
+
+        //refresh the node
+        RefreshPorts();
     }
 
     private void CreateInputPorts()
     {
-        if (node is CompositeNode)
+        if (node is BehaviorTree.CompositeNode)
         {
-            input = InstantiatePort(Orientation.Vertical, Direction.Input, Port.Capacity.Single, typeof(bool));
+            input = base.InstantiatePort(Orientation.Vertical, Direction.Input, Port.Capacity.Single, typeof(bool));
             input.portName = "";
-            inputContainer.Add(input);
+            base.inputContainer.Add(input);
         }
-        else if (node is DecoratorNode)
+        else if (node is Sequencer)
         {
-            input = InstantiatePort(Orientation.Vertical, Direction.Input, Port.Capacity.Single, typeof(bool));
+            input = base.InstantiatePort(Orientation.Vertical, Direction.Input, Port.Capacity.Single, typeof(bool));
             input.portName = "";
-            inputContainer.Add(input);
+            base.inputContainer.Add(input);
         }
         else if (node is ActionNode)
         {
-            input = InstantiatePort(Orientation.Vertical, Direction.Input, Port.Capacity.Single, typeof(bool));
+            input = base.InstantiatePort(Orientation.Vertical, Direction.Input, Port.Capacity.Single, typeof(bool));
             input.portName = "";
-            inputContainer.Add(input);
+            base.inputContainer.Add(input);
         }
     }
     private void CreateOutputPorts()
     {
-        if (node is CompositeNode)
+        if (node is BehaviorTree.CompositeNode)
         {
-            output = InstantiatePort(Orientation.Vertical, Direction.Output, Port.Capacity.Multi, typeof(bool));
+            output = base.InstantiatePort(Orientation.Vertical, Direction.Output, Port.Capacity.Multi, typeof(bool));
             output.portName = "";
-            outputContainer.Add(output);
+            base.outputContainer.Add(output);
         }
-        else if (node is DecoratorNode)
+        else if (node is Sequencer)
         {
-            output = InstantiatePort(Orientation.Vertical, Direction.Output, Port.Capacity.Single, typeof(bool));
+            output = base.InstantiatePort(Orientation.Vertical, Direction.Output, Port.Capacity.Single, typeof(bool));
             output.portName = "";
-            outputContainer.Add(output);
+            base.outputContainer.Add(output);
         }
         else if (node is RootNode)
         {
-            output = InstantiatePort(Orientation.Vertical, Direction.Output, Port.Capacity.Single, typeof(bool));
+            output = base.InstantiatePort(Orientation.Vertical, Direction.Output, Port.Capacity.Single, typeof(bool));
             output.portName = "";
-            outputContainer.Add(output);
+            base.outputContainer.Add(output);
         }
         // ActionNode has no output port
     }

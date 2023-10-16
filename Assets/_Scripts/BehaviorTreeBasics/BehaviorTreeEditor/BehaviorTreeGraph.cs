@@ -7,6 +7,10 @@ using Node = BehaviorTree.Node;
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using System.Diagnostics;
+using UnityEngine;
+using System.Numerics;
+using Vector2 = UnityEngine.Vector2;
 public class BehaviorTreeGraph : GraphView
 {
     public Action<NodeView> OnNodeSelected;
@@ -62,7 +66,7 @@ public class BehaviorTreeGraph : GraphView
                 NodeView parentView = FindNodeView(node);
                 NodeView childView = FindNodeView(child);
 
-                
+
                 Edge edge = parentView.output.ConnectTo(childView.input);
                 AddElement(edge);
             });
@@ -71,40 +75,74 @@ public class BehaviorTreeGraph : GraphView
 
     private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)
     {
-        if (graphViewChange.elementsToRemove != null)
+        //Reorganize node lists baeed on position
+        if (graphViewChange.movedElements != null)
         {
-            foreach (var element in graphViewChange.elementsToRemove)
-            {
-                if (element is NodeView nodeView)
-                {
-                    _tree.DeleteNode(nodeView.node);
-                }
-
-
-                Edge edge = element as Edge;
-
-                if (edge != null)
-                {
-                    NodeView parentView = edge.output.node as NodeView;
-                    NodeView childView = edge.input.node as NodeView;
-                    _tree.RemoveChild(parentView.node, childView.node);
-                }
-            }
-
+            ReloadTreeNodePositionsInList();
         }
 
+
+        // Remove nodes that need removing
+        if (graphViewChange.elementsToRemove != null)
+        {
+            RemoveElements(graphViewChange);
+        }
+
+
+        // Add edges that need adding and create the connection in the tree
         if (graphViewChange.edgesToCreate != null)
         {
-            foreach (var edge in graphViewChange.edgesToCreate)
+            CreateEdges(graphViewChange);
+        }
+
+        return graphViewChange;
+    }
+
+    private void ReloadTreeNodePositionsInList()
+    {
+        foreach (var node in _tree.nodes)
+        {
+            if (node is CompositeNode compositeNode)
+            {
+                if (compositeNode.children != null)
+                {
+                    compositeNode.children.Sort((a, b) => a.position.x.CompareTo(b.position.x));
+                }
+            }
+        }
+    }
+
+    private void CreateEdges(GraphViewChange graphViewChange)
+    {
+        foreach (var edge in graphViewChange.edgesToCreate)
+        {
+            NodeView parentView = edge.output.node as NodeView;
+            NodeView childView = edge.input.node as NodeView;
+            _tree.AddChild(parentView.node, childView.node);
+        }
+    }
+
+    private void RemoveElements(GraphViewChange graphViewChange)
+    {
+        foreach (var element in graphViewChange.elementsToRemove)
+        {
+            if (element is NodeView nodeView)
+            {
+                if (nodeView.node == _tree.rootNode)
+                    continue;
+
+                _tree.DeleteNode(nodeView.node);
+            }
+
+            Edge edge = element as Edge;
+
+            if (edge != null)
             {
                 NodeView parentView = edge.output.node as NodeView;
                 NodeView childView = edge.input.node as NodeView;
-                _tree.AddChild(parentView.node, childView.node);
+                _tree.RemoveChild(parentView.node, childView.node);
             }
         }
-
-
-        return graphViewChange;
     }
 
     public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
@@ -115,30 +153,33 @@ public class BehaviorTreeGraph : GraphView
         }
 
         var actionNode = TypeCache.GetTypesDerivedFrom<ActionNode>();
+        
+        Vector2 mousePos = evt.mousePosition;
+        mousePos = this.contentViewContainer.WorldToLocal(mousePos);
 
         foreach (var nodeType in actionNode)
         {
-            evt.menu.AppendAction($"Add Node/ActionNode/{nodeType.Name}", (a) => CreateNode(nodeType));
+            evt.menu.AppendAction($"Add Node/ActionNode/{nodeType.Name}", (a) => CreateNode(nodeType, mousePos));
         }
 
-        var compositeNode = TypeCache.GetTypesDerivedFrom<CompositeNode>();
+        var compositeNode = TypeCache.GetTypesDerivedFrom<BehaviorTree.CompositeNode>();
 
         foreach (var nodeType in compositeNode)
         {
-            evt.menu.AppendAction($"Add Node/CompositeNode/{nodeType.Name}", (a) => CreateNode(nodeType));
+            evt.menu.AppendAction($"Add Node/CompositeNode/{nodeType.Name}", (a) => CreateNode(nodeType,mousePos));
         }
 
-
-        var decoratorNode = TypeCache.GetTypesDerivedFrom<DecoratorNode>();
+        var decoratorNode = TypeCache.GetTypesDerivedFrom<Sequencer>();
         foreach (var nodeType in decoratorNode)
         {
-            evt.menu.AppendAction($"Add Node/DecoratorNode/{nodeType.Name}", (a) => CreateNode(nodeType));
+            evt.menu.AppendAction($"Add Node/DecoratorNode/{nodeType.Name}", (a) => CreateNode(nodeType,mousePos));
         }
     }
 
-    private void CreateNode(System.Type type)
+    private void CreateNode(System.Type type, Vector2 position)
     {
         Node node = _tree.CreateNode(type);
+        node.position = position;
         AddElement(CreateNodeView(node));
     }
 

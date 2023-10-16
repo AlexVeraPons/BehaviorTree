@@ -3,7 +3,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
-public class RepeatNode : DecoratorNode
+public class RepeatNode : Sequencer
 {
     protected override void OnStart()
     {

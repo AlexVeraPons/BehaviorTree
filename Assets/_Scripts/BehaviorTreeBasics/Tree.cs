@@ -14,9 +14,7 @@ namespace BehaviorTree
         public BlackBoard blackboard;
         public Node rootNode = null;
         public NodeState treeState = NodeState.Running;
-        public Dictionary<string, object> dataContext = new Dictionary<string, object>();
         public List<Node> nodes = new List<Node>();
-
         public NodeState Update()
         {
             if (rootNode == null)
@@ -57,7 +55,7 @@ namespace BehaviorTree
 
         public void AddChild(Node parent, Node child)
         {
-            DecoratorNode decoratorNode = parent as DecoratorNode;
+            Sequencer decoratorNode = parent as Sequencer;
             if (decoratorNode != null)
             {
                 decoratorNode.child = child;
@@ -90,7 +88,7 @@ namespace BehaviorTree
                 rootNode.child = null;
             }
 
-            DecoratorNode decoratorNode = parent as DecoratorNode;
+            Sequencer decoratorNode = parent as Sequencer;
             if (decoratorNode != null)
             {
                 decoratorNode.child = null;
@@ -101,7 +99,7 @@ namespace BehaviorTree
         {
             List<Node> children = new List<Node>();
 
-            DecoratorNode decorator = parent as DecoratorNode;
+            Sequencer decorator = parent as Sequencer;
             if(decorator && decorator.child != null)
             {
                 children.Add(decorator.child);

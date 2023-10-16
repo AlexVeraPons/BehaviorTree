@@ -31,6 +31,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tree: {fileID: 11400000}
   state: 0
+  _started: 0
   Guid: ac2ebf01-31df-44bc-969a-5b9e30e05daa
-  position: {x: 0, y: 0}
+  position: {x: 338.08505, y: 200.18}
   child: {fileID: 0}

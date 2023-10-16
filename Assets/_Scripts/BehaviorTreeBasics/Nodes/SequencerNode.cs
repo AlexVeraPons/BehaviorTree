@@ -1,6 +1,5 @@
 using BehaviorTree;
 using UnityEngine;
-
 public class SequencerNode : CompositeNode
 {
     [HideInInspector] private int _currentChild;
