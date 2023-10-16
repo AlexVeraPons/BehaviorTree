@@ -74,7 +74,6 @@ MonoBehaviour:
   children:
   - {fileID: -9012414085943565168}
   - {fileID: 400600028563145925}
-  _currentChild: 0
 --- !u!114 &-3402614396296295110
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -91,10 +90,8 @@ MonoBehaviour:
   state: 0
   _started: 1
   Guid: 10508156-8372-4a0a-b41b-5ab00a527c0b
-  position: {x: -989.3447, y: 210.00008}
-  children:
-  - {fileID: -3955733783740599047}
-  - {fileID: -3129375744311616943}
+  position: {x: -810, y: 174}
+  children: []
 --- !u!114 &-3129375744311616943
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,7 +114,6 @@ MonoBehaviour:
   - {fileID: -1547121195882349419}
   - {fileID: -4965481486786436847}
   - {fileID: 1548590131749706769}
-  _currentChild: 0
 --- !u!114 &-1547121195882349419
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,6 +132,24 @@ MonoBehaviour:
   Guid: 92d8ccf8-7db8-44e1-aa54-41b6198db502
   position: {x: -655.9998, y: 584.99994}
   message: yr
+--- !u!114 &-787253718409788257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 009fd3b32db7e4442a7fe95912a68287, type: 3}
+  m_Name: CheckIfEnemyInRange
+  m_EditorClassIdentifier: 
+  tree: {fileID: 11400000}
+  state: 0
+  _started: 0
+  Guid: 56acbb71-f410-49b0-bf4d-a268127e37f1
+  position: {x: 0, y: 0}
+  _range: 2
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,6 +177,7 @@ MonoBehaviour:
   - {fileID: 1548590131749706769}
   - {fileID: -4965481486786436847}
   - {fileID: -3402614396296295110}
+  - {fileID: -787253718409788257}
 --- !u!114 &400600028563145925
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -197,7 +212,7 @@ MonoBehaviour:
   state: 1
   _started: 0
   Guid: f68972ed-f133-4c35-ac32-6498c22015f5
-  position: {x: -1106, y: 584.99994}
+  position: {x: -1172, y: 635.00006}
   message: ye
 --- !u!114 &9037944217959281921
 MonoBehaviour:
