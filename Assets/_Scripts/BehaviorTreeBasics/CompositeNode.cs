@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,6 +17,11 @@ namespace BehaviorTree
       CompositeNode node = Instantiate(this);
       node.children = children.ConvertAll(c => c.Clone());
       return node;
+    }
+
+    public void ReorganizeListByPosition()
+    {
+      children.Sort((a, b) => a.position.x.CompareTo(b.position.x));
     }
   }
 }

@@ -106,7 +106,7 @@ public class BehaviorTreeGraph : GraphView
             {
                 if (compositeNode.children != null)
                 {
-                    compositeNode.children.Sort((a, b) => a.position.x.CompareTo(b.position.x));
+                    compositeNode.ReorganizeListByPosition();
                 }
             }
         }
