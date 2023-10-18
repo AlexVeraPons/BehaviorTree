@@ -2,7 +2,7 @@ using BehaviorTree;
 
 namespace BehaviorTree
 {
-    public class RepeatNode : Sequencer
+    public class RepeatNode : RootNode
     {
         protected override void OnStart()
         {

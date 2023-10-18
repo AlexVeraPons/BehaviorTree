@@ -62,7 +62,7 @@ public class NodeView : UnityEditor.Experimental.GraphView.Node
         {
             titleContainer.style.backgroundColor = new Color(0.0f, 0.4784f, 0.3451f, 1.0f);
         }
-        else if (node is Sequencer)
+        else if (node is DecoratorNode)
         {
             titleContainer.style.backgroundColor = new Color(0.2235f, 0.3608f, 0.4196f, 1.0f);
         }
@@ -111,7 +111,7 @@ public class NodeView : UnityEditor.Experimental.GraphView.Node
             input.portName = "";
             base.inputContainer.Add(input);
         }
-        else if (node is Sequencer)
+        else if (node is DecoratorNode)
         {
             input = base.InstantiatePort(Orientation.Vertical, Direction.Input, Port.Capacity.Single, typeof(bool));
             input.portName = "";
@@ -132,7 +132,7 @@ public class NodeView : UnityEditor.Experimental.GraphView.Node
             output.portName = "";
             base.outputContainer.Add(output);
         }
-        else if (node is Sequencer)
+        else if (node is DecoratorNode)
         {
             output = base.InstantiatePort(Orientation.Vertical, Direction.Output, Port.Capacity.Single, typeof(bool));
             output.portName = "";

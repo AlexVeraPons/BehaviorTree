@@ -1,19 +1,17 @@
+using System;
+using System.Linq;
 using UnityEngine.UIElements;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor;
 using BehaviorTree;
+using System.Collections.Generic;
+using Vector2 = UnityEngine.Vector2;
 using Tree = BehaviorTree.Tree;
 using Node = BehaviorTree.Node;
-using System.Collections.Generic;
-using System.Linq;
-using System;
-using System.Diagnostics;
-using UnityEngine;
-using System.Numerics;
-using Vector2 = UnityEngine.Vector2;
 
 public class BehaviorTreeGraph : GraphView
 {
+    private const string StyleSheetPath = "Assets/_Project/BehaviorTreeBasics/BehaviorTreeEditor/Editor/BehaviorTreeView.uss";
     public Action<NodeView> OnNodeSelected;
     public new class UxmlFactory : UxmlFactory<BehaviorTreeGraph, GraphView.UxmlTraits> { }
     Tree _tree;
@@ -27,7 +25,7 @@ public class BehaviorTreeGraph : GraphView
         this.AddManipulator(new ContentZoomer());
         this.AddManipulator(new RectangleSelector());
 
-        StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/_Project/BehaviorTreeBasics/BehaviorTreeEditor/Editor/BehaviorTreeView.uss");
+        StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>(StyleSheetPath);
         styleSheets.Add(styleSheet);
     }
 
@@ -105,10 +103,7 @@ public class BehaviorTreeGraph : GraphView
         {
             if (node is CompositeNode compositeNode)
             {
-                if (compositeNode.children != null)
-                {
-                    compositeNode.ReorganizeListByPosition();
-                }
+                compositeNode?.ReorganizeListByPosition();
             }
         }
     }
@@ -144,6 +139,7 @@ public class BehaviorTreeGraph : GraphView
                 _tree.RemoveChild(parentView.node, childView.node);
             }
         }
+
     }
 
     public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
@@ -153,27 +149,20 @@ public class BehaviorTreeGraph : GraphView
             return;
         }
 
-        var actionNode = TypeCache.GetTypesDerivedFrom<ActionNode>();
-        
         Vector2 mousePos = evt.mousePosition;
         mousePos = this.contentViewContainer.WorldToLocal(mousePos);
 
-        foreach (var nodeType in actionNode)
-        {
-            evt.menu.AppendAction($"Add Node/ActionNode/{nodeType.Name}", (a) => CreateNode(nodeType, mousePos));
-        }
+        AppendNodeActions<ActionNode>("Add Node", mousePos, evt);
+        AppendNodeActions<DecoratorNode>("Add Node", mousePos, evt);
+        AppendNodeActions<CompositeNode>("Add Node", mousePos, evt);
+    }
 
-        var compositeNode = TypeCache.GetTypesDerivedFrom<BehaviorTree.CompositeNode>();
-
-        foreach (var nodeType in compositeNode)
+    private void AppendNodeActions<T>(string menuPath, Vector2 mousePosition, ContextualMenuPopulateEvent evt)
+    {
+        var nodeTypes = TypeCache.GetTypesDerivedFrom<T>();
+        foreach (var nodeType in nodeTypes)
         {
-            evt.menu.AppendAction($"Add Node/CompositeNode/{nodeType.Name}", (a) => CreateNode(nodeType,mousePos));
-        }
-
-        var decoratorNode = TypeCache.GetTypesDerivedFrom<Sequencer>();
-        foreach (var nodeType in decoratorNode)
-        {
-            evt.menu.AppendAction($"Add Node/DecoratorNode/{nodeType.Name}", (a) => CreateNode(nodeType,mousePos));
+            evt.menu.AppendAction($"{menuPath}/{nodeType.Name}", (a) => CreateNode(nodeType, mousePosition));
         }
     }
 

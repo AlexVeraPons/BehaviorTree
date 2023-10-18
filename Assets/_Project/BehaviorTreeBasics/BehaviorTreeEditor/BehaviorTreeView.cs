@@ -13,7 +13,7 @@ public class BehaviorTreeView : EditorWindow
     BehaviorTreeGraph _treeGraphView;
     BehaviorInspectorView _inspectorView;
     BlackboardInspectorView _blackboardInspectorView;
-    
+
 
     [SerializeField]
     private VisualTreeAsset m_VisualTreeAsset = default;
@@ -67,7 +67,13 @@ public class BehaviorTreeView : EditorWindow
                 return;
             }
         }
-        else if(Selection.activeGameObject.GetComponent<BehaviorTreeRunner>() != null)
+
+        if (Selection.activeGameObject is not GameObject) //without this line, the editor will crash when selecting a gameobject
+            return;
+
+        Debug.Log(Selection.activeGameObject.name);
+        
+        if (Selection.activeGameObject.GetComponent<BehaviorTreeRunner>())
         {
             BehaviorTreeRunner runner = Selection.activeGameObject.GetComponent<BehaviorTreeRunner>();
             {
@@ -75,7 +81,6 @@ public class BehaviorTreeView : EditorWindow
             }
         }
 
-        
         if (Selection.activeGameObject.GetComponent<BlackBoard>() != null)
         {
             BlackBoard blackboard = Selection.activeGameObject.GetComponent<BlackBoard>();
@@ -87,5 +92,8 @@ public class BehaviorTreeView : EditorWindow
                 return;
             }
         }
+
+      
+
     }
 }
