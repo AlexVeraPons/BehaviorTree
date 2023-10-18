@@ -32,11 +32,11 @@ public class BehaviorTreeView : EditorWindow
         VisualElement root = rootVisualElement;
 
         // Instantiate UXML
-        var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/_Scripts/BehaviorTreeBasics/BehaviorTreeEditor/BehaviorTreeView.uxml");
+        var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/_Project/BehaviorTreeBasics/BehaviorTreeEditor/Editor//BehaviorTreeView.uxml");
         m_VisualTreeAsset.CloneTree(root);
 
         // Add stylesheet
-        StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/_Scripts/BehaviorTreeBasics/BehaviorTreeEditor/BehaviorTreeView.uss");
+        StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/_Project/BehaviorTreeBasics/BehaviorTreeEditor/Editor//BehaviorTreeView.uss");
         root.styleSheets.Add(styleSheet);
 
         _treeGraphView = root.Q<BehaviorTreeGraph>();

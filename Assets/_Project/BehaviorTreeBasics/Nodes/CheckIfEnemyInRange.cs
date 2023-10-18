@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using BehaviorTree;
 
+namespace BehaviorTree
+{
 public class CheckIfEnemyInRange : ActionNode
 {
     [SerializeField] private float _range = 2f;
@@ -31,4 +33,4 @@ public class CheckIfEnemyInRange : ActionNode
             return state;
         }
     }
-}
+}}

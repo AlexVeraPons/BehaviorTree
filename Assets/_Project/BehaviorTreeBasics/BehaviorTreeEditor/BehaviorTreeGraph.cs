@@ -11,6 +11,7 @@ using System.Diagnostics;
 using UnityEngine;
 using System.Numerics;
 using Vector2 = UnityEngine.Vector2;
+
 public class BehaviorTreeGraph : GraphView
 {
     public Action<NodeView> OnNodeSelected;
@@ -26,7 +27,7 @@ public class BehaviorTreeGraph : GraphView
         this.AddManipulator(new ContentZoomer());
         this.AddManipulator(new RectangleSelector());
 
-        StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/_Scripts/BehaviorTreeBasics/BehaviorTreeEditor/BehaviorTreeView.uss");
+        StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/_Project/BehaviorTreeBasics/BehaviorTreeEditor/Editor/BehaviorTreeView.uss");
         styleSheets.Add(styleSheet);
     }
 
