@@ -12,27 +12,25 @@ public class NodeView : UnityEditor.Experimental.GraphView.Node
     public NodeView(BehaviorTree.Node node)
     {
         this.node = node;
+    
         title = node.name;
         this.viewDataKey = node.Guid;
 
         style.left = node.position.x;
         style.top = node.position.y;
+        style.backgroundColor = new Color(0.2f, 0.2f, 0.2f, 1);
+        style.width = 200;
+        style.height = 100;
         style.borderTopLeftRadius = 10;
         style.borderTopRightRadius = 10;
         style.borderBottomLeftRadius = 10;
         style.borderBottomRightRadius = 10;
-
-        style.width = 200;
-        style.height = 100;
-        style.backgroundColor = new Color(0.2f, 0.2f, 0.2f, 1);
-
 
         //delete the extension container
         base.inputContainer.RemoveFromHierarchy();
         base.outputContainer.RemoveFromHierarchy();
         titleButtonContainer.RemoveFromHierarchy();
         topContainer.RemoveFromHierarchy();
-
 
         SetTitleContainerStyle();
 
@@ -159,10 +157,6 @@ public class NodeView : UnityEditor.Experimental.GraphView.Node
     public override void OnSelected()
     {
         base.OnSelected();
-
-        if (OnNodeSelected != null)
-        {
-            OnNodeSelected(this);
-        }
+        OnNodeSelected?.Invoke(this);
     }
 }

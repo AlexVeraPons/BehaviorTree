@@ -3,17 +3,14 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using BehaviorTree;
 using Tree = BehaviorTree.Tree;
-using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
-using Unity.VisualScripting.Antlr3.Runtime.Tree;
-using System;
+
 
 public class BehaviorTreeView : EditorWindow
 {
     BehaviorTreeGraph _treeGraphView;
     BehaviorInspectorView _inspectorView;
     BlackboardInspectorView _blackboardInspectorView;
-
+    
 
     [SerializeField]
     private VisualTreeAsset m_VisualTreeAsset = default;
@@ -46,6 +43,7 @@ public class BehaviorTreeView : EditorWindow
         OnSelectionChange();
     }
 
+
     private void OnNodeSelectionChanged(NodeView view)
     {
         _inspectorView.UpdateSelection(view);
@@ -67,19 +65,14 @@ public class BehaviorTreeView : EditorWindow
                 return;
             }
         }
-
-        if (Selection.activeGameObject is not GameObject) //without this line, the editor will crash when selecting a gameobject
-            return;
-
-        Debug.Log(Selection.activeGameObject.name);
-        
-        if (Selection.activeGameObject.GetComponent<BehaviorTreeRunner>())
+        else if(Selection.activeGameObject.GetComponent<BehaviorTreeRunner>() != null)
         {
             BehaviorTreeRunner runner = Selection.activeGameObject.GetComponent<BehaviorTreeRunner>();
             {
                 _treeGraphView.LoadTree(runner.tree);
             }
         }
+
 
         if (Selection.activeGameObject.GetComponent<BlackBoard>() != null)
         {
@@ -92,8 +85,5 @@ public class BehaviorTreeView : EditorWindow
                 return;
             }
         }
-
-      
-
     }
 }

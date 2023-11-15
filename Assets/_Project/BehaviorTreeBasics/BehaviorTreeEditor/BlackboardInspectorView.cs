@@ -17,23 +17,26 @@ public class BlackboardInspectorView : EditorWindow
 
     public void CreateGUI()
     {
-
         //load the editor
-        imguiContainer = new IMGUIContainer(() =>
+        if (Application.isPlaying == false)
         {
-            if (editor != null)
+            imguiContainer = new IMGUIContainer(() =>
             {
-                editor.OnInspectorGUI();
-            }
-        });
+                if (editor != null)
+                {
+                    editor.OnInspectorGUI();
+                }
+            });
 
-        // make spacing consistent with other inspectors
-        imguiContainer.style.marginLeft = 10;
-        imguiContainer.style.marginRight = 10;
-        imguiContainer.style.marginTop = 10;
-        imguiContainer.style.marginBottom = 10;
+            // make spacing consistent with other inspectors
+            imguiContainer.style.marginLeft = 10;
+            imguiContainer.style.marginRight = 10;
+            imguiContainer.style.marginTop = 10;
+            imguiContainer.style.marginBottom = 10;
 
-        rootVisualElement.Add(imguiContainer);
+            rootVisualElement.Add(imguiContainer);
+        }
+
     }
 
     internal void UpdateSelection(BlackBoard view)

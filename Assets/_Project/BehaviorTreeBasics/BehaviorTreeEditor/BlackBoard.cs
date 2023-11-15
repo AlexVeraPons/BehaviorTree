@@ -27,11 +27,10 @@ namespace BehaviorTree
             }
             else
             {
+                Debug.LogError("Key not found in blackboard: " + key);
                 return null;
             }
         }
-
-        public abstract void Initialize();
     }
 }
 

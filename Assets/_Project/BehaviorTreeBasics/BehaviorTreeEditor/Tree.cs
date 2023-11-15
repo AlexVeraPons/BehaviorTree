@@ -9,8 +9,8 @@ namespace BehaviorTree
     public class Tree : ScriptableObject
     {
         public BlackBoard blackboard;
-        public Node rootNode = null;
-        public NodeState treeState = NodeState.Running;
+        [HideInInspector]public Node rootNode = null;
+        [HideInInspector]public NodeState treeState = NodeState.Running;
         public List<Node> nodes = new List<Node>();
         public NodeState Update()
         {

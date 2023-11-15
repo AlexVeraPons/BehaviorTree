@@ -8,12 +8,9 @@ public class NodeBlackboard : BlackBoard
 
     void Start()
     {
-      Initialize();   
-    }
-    public override void Initialize()
-    {
         SetData("Origin", _origin);
         SetData("Target", _target);
-        SetData("Distance", _distance); 
+        SetData("Distance", _distance);  
     }
+    
 }
