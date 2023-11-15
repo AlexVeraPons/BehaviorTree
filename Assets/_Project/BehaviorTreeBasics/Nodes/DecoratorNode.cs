@@ -2,13 +2,13 @@ using UnityEngine;
 
 namespace BehaviorTree
 {
-    public abstract class Sequencer : Node
+    public abstract class DecoratorNode : Node
     {
         [HideInInspector] public Node child;
 
         public override Node Clone()
         {
-            Sequencer node = Instantiate(this);
+            DecoratorNode node = Instantiate(this);
             node.child = child.Clone();
             return node;
         }

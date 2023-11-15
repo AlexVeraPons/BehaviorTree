@@ -3,10 +3,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using BehaviorTree;
 using Tree = BehaviorTree.Tree;
-using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
-using Unity.VisualScripting.Antlr3.Runtime.Tree;
-using System;
+
 
 public class BehaviorTreeView : EditorWindow
 {
@@ -46,6 +43,7 @@ public class BehaviorTreeView : EditorWindow
         OnSelectionChange();
     }
 
+
     private void OnNodeSelectionChanged(NodeView view)
     {
         _inspectorView.UpdateSelection(view);
@@ -75,7 +73,7 @@ public class BehaviorTreeView : EditorWindow
             }
         }
 
-        
+
         if (Selection.activeGameObject.GetComponent<BlackBoard>() != null)
         {
             BlackBoard blackboard = Selection.activeGameObject.GetComponent<BlackBoard>();

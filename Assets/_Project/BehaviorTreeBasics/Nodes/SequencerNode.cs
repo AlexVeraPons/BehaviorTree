@@ -2,7 +2,7 @@ using BehaviorTree;
 using UnityEngine;
 public class SequencerNode : CompositeNode
 {
-    [HideInInspector] private int _currentChild;
+    private int _currentChild;
     protected override void OnStart()
     {
         _currentChild = 0;
@@ -15,7 +15,6 @@ public class SequencerNode : CompositeNode
     protected override NodeState OnUpdate()
     {
         var child = children[_currentChild];
-
         switch (child.Evaluate())
         {
             case NodeState.Failure:

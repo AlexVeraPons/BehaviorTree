@@ -1,8 +1,8 @@
 using BehaviorTree;
-
+using UnityEngine;
 namespace BehaviorTree
 {
-    public class RepeatNode : Sequencer
+    public class RepeatNode : DecoratorNode
     {
         protected override void OnStart()
         {

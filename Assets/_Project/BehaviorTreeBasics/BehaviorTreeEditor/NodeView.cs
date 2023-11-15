@@ -12,27 +12,25 @@ public class NodeView : UnityEditor.Experimental.GraphView.Node
     public NodeView(BehaviorTree.Node node)
     {
         this.node = node;
+    
         title = node.name;
         this.viewDataKey = node.Guid;
 
         style.left = node.position.x;
         style.top = node.position.y;
+        style.backgroundColor = new Color(0.2f, 0.2f, 0.2f, 1);
+        style.width = 200;
+        style.height = 100;
         style.borderTopLeftRadius = 10;
         style.borderTopRightRadius = 10;
         style.borderBottomLeftRadius = 10;
         style.borderBottomRightRadius = 10;
-
-        style.width = 200;
-        style.height = 100;
-        style.backgroundColor = new Color(0.2f, 0.2f, 0.2f, 1);
-
 
         //delete the extension container
         base.inputContainer.RemoveFromHierarchy();
         base.outputContainer.RemoveFromHierarchy();
         titleButtonContainer.RemoveFromHierarchy();
         topContainer.RemoveFromHierarchy();
-
 
         SetTitleContainerStyle();
 
@@ -62,7 +60,7 @@ public class NodeView : UnityEditor.Experimental.GraphView.Node
         {
             titleContainer.style.backgroundColor = new Color(0.0f, 0.4784f, 0.3451f, 1.0f);
         }
-        else if (node is Sequencer)
+        else if (node is DecoratorNode)
         {
             titleContainer.style.backgroundColor = new Color(0.2235f, 0.3608f, 0.4196f, 1.0f);
         }
@@ -111,7 +109,7 @@ public class NodeView : UnityEditor.Experimental.GraphView.Node
             input.portName = "";
             base.inputContainer.Add(input);
         }
-        else if (node is Sequencer)
+        else if (node is DecoratorNode)
         {
             input = base.InstantiatePort(Orientation.Vertical, Direction.Input, Port.Capacity.Single, typeof(bool));
             input.portName = "";
@@ -132,7 +130,7 @@ public class NodeView : UnityEditor.Experimental.GraphView.Node
             output.portName = "";
             base.outputContainer.Add(output);
         }
-        else if (node is Sequencer)
+        else if (node is DecoratorNode)
         {
             output = base.InstantiatePort(Orientation.Vertical, Direction.Output, Port.Capacity.Single, typeof(bool));
             output.portName = "";
@@ -159,10 +157,6 @@ public class NodeView : UnityEditor.Experimental.GraphView.Node
     public override void OnSelected()
     {
         base.OnSelected();
-
-        if (OnNodeSelected != null)
-        {
-            OnNodeSelected(this);
-        }
+        OnNodeSelected?.Invoke(this);
     }
 }

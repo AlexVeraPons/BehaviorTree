@@ -9,8 +9,8 @@ namespace BehaviorTree
     public class Tree : ScriptableObject
     {
         public BlackBoard blackboard;
-        public Node rootNode = null;
-        public NodeState treeState = NodeState.Running;
+        [HideInInspector]public Node rootNode = null;
+        [HideInInspector]public NodeState treeState = NodeState.Running;
         public List<Node> nodes = new List<Node>();
         public NodeState Update()
         {
@@ -52,7 +52,7 @@ namespace BehaviorTree
 
         public void AddChild(Node parent, Node child)
         {
-            Sequencer decoratorNode = parent as Sequencer;
+            DecoratorNode decoratorNode = parent as DecoratorNode;
             if (decoratorNode != null)
             {
                 decoratorNode.child = child;
@@ -85,7 +85,7 @@ namespace BehaviorTree
                 rootNode.child = null;
             }
 
-            Sequencer decoratorNode = parent as Sequencer;
+            DecoratorNode decoratorNode = parent as DecoratorNode;
             if (decoratorNode != null)
             {
                 decoratorNode.child = null;
@@ -96,7 +96,7 @@ namespace BehaviorTree
         {
             List<Node> children = new List<Node>();
 
-            Sequencer decorator = parent as Sequencer;
+            DecoratorNode decorator = parent as DecoratorNode;
             if(decorator && decorator.child != null)
             {
                 children.Add(decorator.child);

@@ -1,36 +1,36 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using BehaviorTree;
 
 namespace BehaviorTree
 {
-public class CheckIfEnemyInRange : ActionNode
-{
-    [SerializeField] private float _range = 2f;
-    private Transform _target;
-    private Transform _origin;
-    protected override void OnStart()
+    public class CheckIfEnemyInRange : ActionNode
     {
-        _target = (Transform)blackBoard.GetData("Target");
-        _origin = (Transform)blackBoard.GetData("Origin");
-    }
-
-    protected override void OnStop()
-    {
-    }
-
-    protected override NodeState OnUpdate()
-    {
-        if (Vector3.Distance(_origin.position, _target.position) <= _range)
+        private float _range = 2f;
+        private Transform _target;
+        private Transform _origin;
+        protected override void OnStart()
         {
-            state = NodeState.Success;
-            return state;
+            _target = (Transform)blackBoard.GetData("PlayerTransform");
+            _origin = (Transform)blackBoard.GetData("Origin");
+            _range = (float)blackBoard.GetData("Distance");
+
+            state = NodeState.Failure;
         }
-        else
+
+        protected override void OnStop()
         {
+        }
+
+        protected override NodeState OnUpdate()
+        {
+            if (Vector3.Distance(_origin.position, _target.position) <= _range)
+            {
+                state = NodeState.Success;
+                return state;
+            }
+
             state = NodeState.Failure;
             return state;
         }
     }
-}}
+}

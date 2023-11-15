@@ -12,24 +12,23 @@ namespace BehaviorTree
     public abstract class Node : ScriptableObject
     {
         public event Action<NodeState> OnStatusChanged;
-        public Tree tree;
+        [HideInInspector] public Tree tree;
         protected BlackBoard blackBoard => GetBlackbaord();
         private BlackBoard GetBlackbaord()
         {
             if (tree == null)
             {
+                Debug.LogError("Tree is null");
                 return null;
             }
-
             return tree.blackboard;
         }
 
         private NodeState _prevState;
-         public NodeState state;
-        public bool _started = false;
+        [HideInInspector] public NodeState state;
+        [HideInInspector] public bool _started = false;
         [HideInInspector] public string Guid;
         [HideInInspector] public Vector2 position;
-
         public virtual NodeState Evaluate()
         {
             if (!_started)
@@ -60,11 +59,8 @@ namespace BehaviorTree
         {
             return Instantiate(this);
         }
-
-
         protected abstract NodeState OnUpdate();
         protected abstract void OnStart();
         protected abstract void OnStop();
     }
-
 }

@@ -7,9 +7,6 @@ using Node = BehaviorTree.Node;
 using System.Collections.Generic;
 using System.Linq;
 using System;
-using System.Diagnostics;
-using UnityEngine;
-using System.Numerics;
 using Vector2 = UnityEngine.Vector2;
 
 public class BehaviorTreeGraph : GraphView
@@ -30,11 +27,11 @@ public class BehaviorTreeGraph : GraphView
         StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/_Project/BehaviorTreeBasics/BehaviorTreeEditor/Editor/BehaviorTreeView.uss");
         styleSheets.Add(styleSheet);
     }
-
     NodeView FindNodeView(Node node)
     {
         return GetNodeByGuid(node.Guid) as NodeView;
     }
+
     internal void LoadTree(Tree tree)
     {
         _tree = tree;
@@ -170,7 +167,7 @@ public class BehaviorTreeGraph : GraphView
             evt.menu.AppendAction($"Add Node/CompositeNode/{nodeType.Name}", (a) => CreateNode(nodeType,mousePos));
         }
 
-        var decoratorNode = TypeCache.GetTypesDerivedFrom<Sequencer>();
+        var decoratorNode = TypeCache.GetTypesDerivedFrom<DecoratorNode>();
         foreach (var nodeType in decoratorNode)
         {
             evt.menu.AppendAction($"Add Node/DecoratorNode/{nodeType.Name}", (a) => CreateNode(nodeType,mousePos));
